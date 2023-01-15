@@ -1,5 +1,6 @@
 -- Notes to show interactive programming with Idris
 -- Examples from Edwin Brady's presentation at Code Mesh 2020
+-- Dependent Type Driven Program Synthesis in Idris
 -- https://youtu.be/brjFqXkUQv0
 
 --- REPEAT AN ELEMENT
@@ -28,12 +29,35 @@ rep_5 0 x = []
 rep_5 (S k) x = x :: rep_5 k x
 
 --- REPEAT AN ELEMENT
--- Add definition
+-- One step
 
 -- 1. Add definitions
 rep_6 : Nat -> a -> List a
 
--- 1. Generate definitions (command: Generate definitions)
+-- 1. Generate definitions (command: Generate Definition)
 rep_7 : Nat -> a -> List a
 rep_7 0 x = []
 rep_7 (S k) x = x :: rep_7 k x
+
+
+--- APPEND
+-- One step
+
+-- 1. Generate definitions (command: Generate Definition)
+append : List a -> List a -> List a
+append [] ys = ys
+append (x :: xs) ys = x :: append xs ys
+
+
+-- DEPENDENT TYPES
+-- Example from André Videla
+-- https://youtu.be/txJiuDM2gUM
+
+ReturnType : Bool -> Type
+ReturnType True = String
+ReturnType False = Int
+
+-- Use "Add Clause" + "Case Split" + "Type Of"
+depends : (b : Bool) -> ReturnType b
+depends False = 1
+depends True = "UCM"
